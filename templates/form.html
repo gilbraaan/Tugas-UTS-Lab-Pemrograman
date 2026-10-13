@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ "Tambah" if mode == "tambah" else "Ubah" }} mahasiswa{% endblock %}
+{% block content %}
+<h1>{{ "Tambah mahasiswa" if mode == "tambah" else "Ubah data mahasiswa" }}</h1>
+<p class="sub">Semua kolom wajib diisi.</p>
+
+{% if errors %}
+<div class="alert alert-error">
+  Data belum bisa disimpan:
+  <ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<div class="card">
+  <form class="form" method="post" novalidate>
+    <div>
+      <label for="nim">NIM</label>
+      <input type="text" inputmode="numeric" id="nim" name="nim" value="{{ data.get('nim', '') }}"
+             {% if mode == "edit" %}readonly{% endif %}>
+      {% if mode == "edit" %}<div class="hint">NIM tidak dapat diubah.</div>{% endif %}
+    </div>
+    <div>
+      <label for="nama">Nama</label>
+      <input type="text" id="nama" name="nama" value="{{ data.get('nama', '') }}">
+    </div>
+    <div>
+      <label for="program_studi">Program studi</label>
+      <input type="text" id="program_studi" name="program_studi" value="{{ data.get('program_studi', '') }}">
+    </div>
+    <div>
+      <label for="angkatan">Angkatan</label>
+      <input type="text" inputmode="numeric" id="angkatan" name="angkatan" value="{{ data.get('angkatan', '') }}">
+    </div>
+    <div>
+      <label for="ipk">IPK</label>
+      <input type="text" inputmode="decimal" id="ipk" name="ipk" value="{{ data.get('ipk', '') }}">
+      <div class="hint">Rentang 0.00 sampai 4.00.</div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Simpan</button>
+      <a class="btn btn-ghost" href="{{ url_for('mahasiswa_bp.index') }}">Batal</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

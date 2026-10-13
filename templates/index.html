@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="head">
+  <div>
+    <h1>Daftar mahasiswa</h1>
+    <p class="sub">{{ daftar|length }} mahasiswa terdaftar. Lama studi dihitung dari tahun {{ tahun }}.</p>
+  </div>
+  <a class="btn" href="{{ url_for('mahasiswa_bp.form_tambah') }}">Tambah mahasiswa</a>
+</div>
+
+<div class="table-wrap">
+  {% if daftar %}
+  <table>
+    <thead>
+      <tr>
+        <th>NIM</th><th>Nama</th><th>Program studi</th><th>Angkatan</th>
+        <th>IPK</th><th>Lama studi (tahun)</th><th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in daftar %}
+      <tr>
+        <td>{{ m.nim }}</td>
+        <td>{{ m.nama }}</td>
+        <td>{{ m.program_studi }}</td>
+        <td>{{ m.angkatan }}</td>
+        <td>{{ "%.2f"|format(m.ipk) }}</td>
+        <td>{{ m.lama_studi }}</td>
+        <td class="aksi">
+          <a class="btn btn-ghost btn-sm" href="{{ url_for('mahasiswa_bp.detail', nim=m.nim) }}">Detail</a>
+          <a class="btn btn-ghost btn-sm" href="{{ url_for('mahasiswa_bp.form_edit', nim=m.nim) }}">Ubah</a>
+          <form method="post" action="{{ url_for('mahasiswa_bp.hapus', nim=m.nim) }}"
+                onsubmit="return confirm({{ ('Hapus ' ~ m.nama ~ ' (NIM ' ~ m.nim ~ ')?')|tojson }});">
+            <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">Belum ada data. Klik "Tambah mahasiswa" untuk mulai.</div>
+  {% endif %}
+</div>
+{% endblock %}

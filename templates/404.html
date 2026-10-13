@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Data tidak ditemukan</h1>
+<p class="sub">Mahasiswa dengan NIM tersebut tidak ada atau sudah dihapus.</p>
+<a class="btn" href="{{ url_for('mahasiswa_bp.index') }}">Kembali ke daftar</a>
+{% endblock %}
